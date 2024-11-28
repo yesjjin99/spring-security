@@ -2,6 +2,8 @@ package com.cos.spring_security1.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +23,9 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String role;  // USER, ADMIN, MANAGER
+
+    @Enumerated(EnumType.STRING)
+    private RoleType role;  // ROLE_USER, ROLE_MANAGER, ROLE_ADMIN
 
     @CreatedDate
     private LocalDateTime createdDate;

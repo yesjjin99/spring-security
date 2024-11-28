@@ -31,7 +31,7 @@ public class PrincipalDetails implements UserDetails {  // UserDetails 만들기
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return user.getRole();
+                return user.getRole().toString();
             }
         });
         return collect;
