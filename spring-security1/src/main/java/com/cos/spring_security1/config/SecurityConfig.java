@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()  // 나머지 url은 전부 권한 허용
             );
 
+        http.formLogin(form -> form.loginPage("/login"));  // 권한이 없는 경우 로그인 페이지로 이동하도록 설정
         return http.build();
     }
 }

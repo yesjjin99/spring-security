@@ -15,32 +15,38 @@ public class IndexController {
     }
 
     @GetMapping("/user")
+    @ResponseBody
     public String user() {
         return "user";
     }
 
     @GetMapping("/admin")
+    @ResponseBody
     public String admin() {
         return "admin";
     }
 
     @GetMapping("/manager")
+    @ResponseBody
     public String manager() {
         return "manager";
     }
 
     @GetMapping("/login")
+    @ResponseBody
     public String login() {
         return "login";
     }
 
     @GetMapping("/join")
+    @ResponseBody
     public String join() {
         return "join";
     }
 
     @GetMapping("/joinProc")
-    public @ResponseBody String joinProc() {
+    @ResponseBody
+    public String joinProc() {
         return "회원가입 완료!";
     }
 }
