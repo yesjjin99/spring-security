@@ -25,7 +25,7 @@ public class IndexController {
 
 
     // 시큐리티 session 에는 Authentication 타입 객체가 들어갈 수 있고 (security session 안에 Authentication 객체가 들어간 순간 로그인이 된 것)
-    // Authentication 객체 안에는 1. UserDetails 타입 객체 2. OAuth2User 타입 객체가 들어갈 수 있다
+    // Authentication 객체 안에는 1. UserDetails 타입 객체 2. OAuth2User 타입 -> 2가지 타입의 객체가 들어갈 수 있다
     // UserDetails 타입 -> 일반적인 로그인을 하게 되면, UserDetails 객체가 Authentication 에 들어간다
     // OAuth2User 타입 -> OAuth 로그인을 하게 되면, OAuth2User 객체가 Authentication 에 들어간다
     @GetMapping("/test/login")
@@ -70,9 +70,11 @@ public class IndexController {
         return "index";
     }
 
+    // OAuth 로그인을 해도 PrincipalDetails 로, 일반 로그인을 해도 PrincipalDetails 로 받을 수 있다
     @GetMapping("/user")
     @ResponseBody
-    public String user() {
+    public String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails = " + principalDetails.getUser());
         return "user";
     }
 
@@ -101,7 +103,7 @@ public class IndexController {
     @PostMapping("/join")
     public String join(User user) {
         System.out.println(user);
-        user.setRole(RoleType.ROLE_USER);
+        user.setRole("ROLE_USER");
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);  // 암호화된 비밀번호
