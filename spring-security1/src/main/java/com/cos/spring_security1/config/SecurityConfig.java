@@ -29,11 +29,16 @@ public class SecurityConfig {
                 .anyRequest().permitAll()  // 나머지 url은 전부 권한 허용
             );
 
-        http.formLogin(form -> form
-            .loginPage("/loginForm")
-            .loginProcessingUrl("/login")  // /login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해준다 (컨트롤러에 /login 을 만들지 않아도 됨)
-            .defaultSuccessUrl("/")  // /loginForm 을 요청해서 로그인을 하게 되면 "/"로 보내주지만, 특정 페이지를 요청해서 로그인하게 되면 그 페이지 그대로 보내준다
-        );  // 권한이 없는 경우 로그인 페이지로 이동하도록 설정
+        http
+            .formLogin(form -> form
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login")  // /login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해준다 (컨트롤러에 /login 을 만들지 않아도 됨)
+                .defaultSuccessUrl("/")  // /loginForm 을 요청해서 로그인을 하게 되면 "/"로 보내주지만, 특정 페이지를 요청해서 로그인하게 되면 그 페이지 그대로 보내준다
+            )  // 권한이 없는 경우 로그인 페이지로 이동하도록 설정
+            .oauth2Login((oauth2) -> oauth2
+                .loginPage("/loginForm")
+            );
+
         return http.build();
     }
 }
