@@ -27,6 +27,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType role;  // ROLE_USER, ROLE_MANAGER, ROLE_ADMIN
 
+    private String provider;
+    private String providerId;
+
     @CreatedDate
     private LocalDateTime createdDate;
 }
