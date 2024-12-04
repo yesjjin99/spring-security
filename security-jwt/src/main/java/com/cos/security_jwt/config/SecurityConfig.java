@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CorsFilter;
 
@@ -22,7 +23,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class);  // security filter 보다 기본 필터가 먼저 실행되도록 설정할 수 있다
+        http.addFilterBefore(new MyFilter3(), SecurityContextHolderFilter.class);  // security filter 보다 기본 필터가 먼저 실행되도록 설정할 수 있다
 
         http
             .csrf(csrf -> csrf.disable())
