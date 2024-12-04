@@ -1,12 +1,15 @@
 package com.cos.security_jwt.config;
 
+import com.cos.security_jwt.config.jwt.JwtAuthenticationFilter;
 import com.cos.security_jwt.filter.MyFilter1;
 import com.cos.security_jwt.filter.MyFilter3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -23,6 +26,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+
         http.addFilterBefore(new MyFilter3(), SecurityContextHolderFilter.class);  // security filter 보다 기본 필터가 먼저 실행되도록 설정할 수 있다
 
         http
@@ -33,6 +38,7 @@ public class SecurityConfig {
             .addFilter(corsFilter)  // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증O)
             .formLogin(formLogin -> formLogin.disable())
             .httpBasic(httpBasic -> httpBasic.disable())
+            .addFilter(new JwtAuthenticationFilter(authenticationManager))
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers("/api/v1/user/**").hasAnyRole("USER", "MANAGER", "ADMIN")
                 .requestMatchers("/api/v1/manager/**").hasAnyRole("MANAGER", "ADMIN")

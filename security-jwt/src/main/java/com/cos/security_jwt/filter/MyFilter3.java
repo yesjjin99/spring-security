@@ -17,7 +17,6 @@ public class MyFilter3 implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-
         // id, pw가 정상적으로 들어와서 로그인이 완료되면 -> 토큰을 만들어주고 그걸 응답을 해준다
         // 요청할 때마다 header의 Authorization에 value 값으로 토큰을 가지고 온다
         // 그 때 토큰이 넘어오면, 이 토큰이 내가 만든 토큰이 맞는지만 검증하면 됨 (RSA, HS256 -> RSA라면 private key로 잠궈서 넘겨주고, 이후 토큰이 넘겨오면 이를 public key로 열어보고 정상적으로 열리면 검증 완료)
