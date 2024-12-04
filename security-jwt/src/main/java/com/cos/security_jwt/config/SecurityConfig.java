@@ -1,5 +1,7 @@
 package com.cos.security_jwt.config;
 
+import com.cos.security_jwt.filter.MyFilter1;
+import com.cos.security_jwt.filter.MyFilter3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -18,6 +22,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class);  // security filter 보다 기본 필터가 먼저 실행되도록 설정할 수 있다
+
         http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sessionManagement -> sessionManagement
