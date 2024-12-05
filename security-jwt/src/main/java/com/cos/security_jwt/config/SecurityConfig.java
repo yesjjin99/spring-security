@@ -1,8 +1,10 @@
 package com.cos.security_jwt.config;
 
 import com.cos.security_jwt.config.jwt.JwtAuthenticationFilter;
+import com.cos.security_jwt.config.jwt.JwtAuthorizationFilter;
 import com.cos.security_jwt.filter.MyFilter1;
 import com.cos.security_jwt.filter.MyFilter3;
+import com.cos.security_jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -55,7 +58,8 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                 .addFilter(corsFilter)  // @CrossOrigin(인증X), 시큐리티 필터에 등록(인증O)
-                .addFilter(new JwtAuthenticationFilter(authenticationManager));
+                .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
 
             super.configure(http);
         }
